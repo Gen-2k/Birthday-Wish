@@ -1,5 +1,3 @@
-
-
 // variables
 var $win = $(window);
 var clientWidth = $win.width();
@@ -53,10 +51,35 @@ function timeElapse(date){
 	if (seconds < 10) {
 		seconds = "0" + seconds;
 	}
-	var result = "Days <span class=\"digit\">" + days + "</span> Hours <span class=\"digit\">" + hours + "</span> Minutes <span class=\"digit\">" + minutes; 
+	var result = `<span class="time-unit">Days</span> <span class="digit">${days}</span> <span class="time-unit">Hours</span> <span class="digit">${hours}</span> <span class="time-unit">Minutes</span> <span class="digit">${minutes}</span>`; 
 	$("#clock").html(result);
 
 	var text = "THE WORLD JUST GOT LUCKIER SINCE ";
-	$("#message-box").html(text);
-
+	$("#message-box").html(text).css({
+		'font-size': '28px',
+		'color': '#ff4081',
+		'text-shadow': '2px 2px 4px rgba(0,0,0,0.3)',
+		'animation': 'pulse 2s infinite'
+	});
 }
+
+// Add this to your CSS
+$("<style>")
+	.prop("type", "text/css")
+	.html(`
+	@keyframes pulse {
+		0% { transform: scale(1); }
+		50% { transform: scale(1.05); }
+		100% { transform: scale(1); }
+	}
+	.time-unit {
+		font-size: 18px;
+		color: #ff4081;
+	}
+	.digit {
+		font-size: 36px;
+		font-weight: bold;
+		color: #333;
+	}
+	`)
+	.appendTo("head");

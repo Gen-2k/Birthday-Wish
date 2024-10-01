@@ -18,14 +18,53 @@
             }
         </script>
 	    <style type="text/css">
+            body {
+                background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2, #ffb6c1);
+                background-size: 400% 400%;
+                animation: gradientBG 15s ease infinite;
+            }
+            @keyframes gradientBG {
+                0% {background-position: 0% 50%;}
+                50% {background-position: 100% 50%;}
+                100% {background-position: 0% 50%;}
+            }
+            #main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            #wrap {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                padding: 20px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            }
+            #code {
+                font-family: 'Courier New', monospace;
+                color: #333;
+                text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+            }
+            .say {
+                transition: all 0.3s ease;
+            }
+            .say:hover {
+                transform: scale(1.1);
+                color: #ff4081;
+            }
+            #canvas {
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            }
         </style>
 </head>
     <body>
         <div id="main">
-            <div id="error">，<a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>(<a href="http://firefox.com.cn/download/">Firefox</a>)</div>
-            <audio autoplay="autoplay" height="100" width="100" id = "myAudio">
-                    <source src="aud.mp3" type="audio/mp3" />
-                    <embed height="100" width="100" src="aud.mp3" />
+            <div id="error">Please use <a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a> or <a href="http://firefox.com.cn/download/">Firefox</a> for the best experience.</div>
+            <audio id="myAudio" loop>
+                <source src="aud.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
             </audio>
             <div id="wrap">
                 <div id="text">
@@ -43,12 +82,12 @@
                     </div>
                   </div>
 
-                  <div id = "message-box"></div>
+                  <div id="message-box"></div>
                 <div id="clock-box">
                     <span class="STYLE1"></span><font color="#33CC00"></font>
-<span class="STYLE1"></span>
-                  <div id="clock"></div>
-              </div>
+                    <span class="STYLE1"></span>
+                    <div id="clock"></div>
+                </div>
                 <canvas id="canvas" width="1100" height="680"></canvas>
             </div>
             
@@ -215,4 +254,52 @@
 
         runAsync().start();
     })();
-    </script></body></html>
+    </script>
+    <script>
+        // Add sparkles effect
+        const sparklesContainer = document.createElement('div');
+        sparklesContainer.id = 'sparkles';
+        document.body.appendChild(sparklesContainer);
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.animationDuration = Math.random() * 1 + 0.5 + 's';
+            sparklesContainer.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1500);
+        }
+
+        setInterval(createSparkle, 50);
+    </script>
+    <style>
+        .sparkle {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #fff;
+            pointer-events: none;
+            animation: sparkle-animation 1s linear forwards;
+        }
+
+        @keyframes sparkle-animation {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+    </body></html>

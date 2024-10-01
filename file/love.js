@@ -68,6 +68,26 @@
     Heart.prototype = {
         get: function(i, scale) {
             return this.points[i].mul(scale || 1);
+        },
+        // Add a new method for a beating effect
+        beat: function(ctx, t) {
+            var s = Math.sin(t * Math.PI);
+            var scale = 1 + s * 0.1;
+            this.draw(ctx, scale);
+        },
+        // Add a new method to draw the heart
+        draw: function(ctx, scale) {
+            ctx.beginPath();
+            for (var i = 0; i < this.length; i++) {
+                var p = this.get(i, scale);
+                if (i === 0) {
+                    ctx.moveTo(p.x, -p.y);
+                } else {
+                    ctx.lineTo(p.x, -p.y);
+                }
+            }
+            ctx.closePath();
+            ctx.fill();
         }
     }
 
@@ -501,6 +521,11 @@
             ctx.translate(s.point.x, s.point.y);
             ctx.scale(s.scale, s.scale);
             ctx.rotate(s.angle);
+
+            // Add a glowing effect
+            ctx.shadowColor = s.color;
+            ctx.shadowBlur = 10;
+
             ctx.beginPath();
             ctx.moveTo(0, 0);
             for (var i = 0; i < figure.length; i++) {
@@ -509,6 +534,13 @@
             }
             ctx.closePath();
             ctx.fill();
+
+            // Add a white center for a more realistic look
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.beginPath();
+            ctx.arc(0, 0, 2, 0, Math.PI * 2);
+            ctx.fill();
+
             ctx.restore();
         },
         jump: function() {
